@@ -6,9 +6,15 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def get():
-    return jsonify({'mes': 'Hello World'})
+basedir= os.path.abspath(os.path.dirname(__file__))
+#database
+app.config['SQLALCHEMY_DATABASE_URL']='sqlite:///'+ os.path.join(basedir, 'db.aqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
+#init db
+db = SQLAlchemy(app)
+#init ma 
+ma = Marshmallow(app)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
