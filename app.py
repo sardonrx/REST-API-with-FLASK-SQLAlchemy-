@@ -96,5 +96,5 @@ def delete_product(id):
     return product_schema.jsonify(delete)
 
 if __name__ == '__main__': 
-    app.run(debug=True)
+    app.run(debug=True) 
  
