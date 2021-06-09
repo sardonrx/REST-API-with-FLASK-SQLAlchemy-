@@ -87,12 +87,13 @@ def update_product(id):
     db.session.commit()
     return product_schema.jsonify(update)
 
-
-
-
-
-
-
+#deleted product 
+@app.route('/product/<id>', methods =['DELETE'])
+def delete_product(id):
+    delete = Product.query.get(id)
+    db.session.delete(delete)
+    db.session.commit()
+    return product_schema.jsonify(delete)
 
 if __name__ == '__main__': 
     app.run(debug=True)
