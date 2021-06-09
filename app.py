@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 basedir= os.path.abspath(os.path.dirname(__file__))
 #database
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir, 'db.sqlite')
+app.config ['SQLALCHEMY_DATABASE_URI']= 'sqlite: ///'+os.path.join (basedir,' db.sqlite ')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 #init db
 db = SQLAlchemy(app)
@@ -55,11 +55,23 @@ def add_product():
 
     return product_schema.jsonify(new_product)
 
+#geting all product 
+
 @app.route('/product', methods=['GET'])
 def get_products():
     all_products= Product.query.all()
     result = products_schema.dump(all_products)
-    return jsonify.data()
+    return jsonify(result.data)
+
+#getting a single product by id
+@app.route('/product/<1>', methods= ['GET'])
+def get_product (id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
+
+
+
 
 if __name__ == '__main__': 
     app.run(debug=True)
+ 
