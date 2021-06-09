@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 basedir= os.path.abspath(os.path.dirname(__file__))
 #database
-app.config['SQLALCHEMY_DATABASE_URL']='sqlite:///'+ os.path.join(basedir, 'db.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir, 'db.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 #init db
 db = SQLAlchemy(app)
@@ -48,12 +48,18 @@ def add_product():
     price = request.json['price']
     qty = request.json ['qty']
 
-    new_product = Product(name,description,price,qty)
+    new_product = Product(name, description, price, qty)
 
     db.session.add(new_product)
     db.session.commit()
-    
+
     return product_schema.jsonify(new_product)
+
+@app.route('/product', methods=['GET'])
+def get_products():
+    all_products= Product.query.all()
+    result = products_schema.dump(all_products)
+    return jsonify.data()
 
 if __name__ == '__main__': 
     app.run(debug=True)
