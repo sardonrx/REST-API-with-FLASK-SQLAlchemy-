@@ -19,7 +19,7 @@ class Product(db.Model):
     name = db.Column(db.String, unique = True)
     description = db.Column(db.String(200))
     price = db.Column(db.Float)
-    qty = db.column(db.Integer)
+    qty = db.Column(db.Integer)
 
 
 def __init__(self, name, description, price, qty):
@@ -39,11 +39,21 @@ class ProductSchema(ma.Schema):
 product_schema = ProductSchema()
 products_schema = ProductSchema(many= True,)
 
+#interacting with our database 
 
+@app.route('/product', methods=['POST'])
+def add_product():
+    name = request.json['name']
+    description = request.json['description']
+    price = request.json['price']
+    qty = request.json ['qty']
 
+    new_product = Product(name,description,price,qty)
 
-
-
+    db.session.add(new_product)
+    db.session.commit()
+    
+    return product_schema.jsonify(new_product)
 
 if __name__ == '__main__': 
     app.run(debug=True)
