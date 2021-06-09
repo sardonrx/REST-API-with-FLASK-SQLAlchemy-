@@ -37,7 +37,7 @@ class ProductSchema(ma.Schema):
 #initschema
 
 product_schema = ProductSchema()
-products_schema = ProductSchema(many= True, )
+products_schema = ProductSchema(many= True,)
 
 
 
